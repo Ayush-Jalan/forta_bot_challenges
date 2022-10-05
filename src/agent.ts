@@ -19,7 +19,7 @@ export const OPTIMISM_L2_DAI_BRIDGE = "0x467194771dAe2967Aef3ECbEDD3Bf9a310C76C6
 export const L1_ESCROW = "";
 export const L2_DAI_TOKEN = "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1";
 export const L1_DAI_TOKEN_ABI = ["function balanceOf (address) public view returns (uint256)"];
-export const L2_DAI_TOKEN_ABI = ["function totalSupply() view returns (uint256)"];
+export const L2_DAI_TOKEN_ABI = ["function totalSupply() view returns (uint)"];
 
 //{"inputs":[],"name":"totalSupply","outputs":[{"internalType":"uint256","name":"","type":"uint256"}],"stateMutability":"view","type":"function"}
 const provideHandleTransaction = () : HandleTransaction => {
@@ -37,12 +37,12 @@ const provideHandleTransaction = () : HandleTransaction => {
   const l2Provider = asL2Provider(provider);
   //console.log(provider);
   //console.log(l2Provider);
-  const daiL2Contract = new ethers.Contract(L2_DAI_TOKEN, L2_DAI_TOKEN_ABI, l2Provider);
+  const daiL2Contract = new ethers.Contract(L2_DAI_TOKEN, L2_DAI_TOKEN_ABI, provider);
   //console.log(daiL2Contract);
   //depositTokenEvent.forEach((transferEvent) => {
   for (const deposit of depositTokenEvent) {
-    const balanceL2DAI =  daiL2Contract.totalSupply();
-    const balanceL1Escrow = await daiL1Contract.balanceOf(OPTIMISM_L1_ESCROW)
+    const balanceL2DAI =  await parseFloat(daiL2Contract.totalSupply());
+    const balanceL1Escrow = await daiL1Contract.balanceOf(OPTIMISM_L1_ESCROW);
     console.log( balanceL2DAI);
     console.log(balanceL1Escrow);
     if (balanceL1Escrow >= 0) {
