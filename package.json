@@ -1,11 +1,13 @@
 {
-  "name": "forta-agent-starter",
+  "name": "DAO_Maker_Bot",
   "version": "0.0.1",
-  "description": "Forta Agent Typescript starter project",
+  "description": "Forta Bot alerts when there is an imbalance in L1-L2 supply od DAI token",
   "chainIds": [
     1,
-    10
+    10,
+    42161
   ],
+  "repository": "https://github.com/Ayush-Jalan/forta_bot_challenges",
   "scripts": {
     "build": "tsc",
     "start": "npm run start:dev",
@@ -26,8 +28,10 @@
     "test": "jest"
   },
   "dependencies": {
-    "@eth-optimism/sdk": "^1.6.6",
-    "forta-agent": "^0.1.10"
+    "axios": "^1.1.3",
+    "forta-agent": "^0.1.10",
+    "forta-agent-tools": "^3.1.1",
+    "node-fetch": "^3.2.10"
   },
   "devDependencies": {
     "@types/jest": "^27.0.1",
