@@ -10,7 +10,6 @@ import {
   API_URL,
   QUERY_API,
   HEADERS,
-  //callFortaAPI
 } from "./utils";
 
 export function provideHandleBlock_L1(
@@ -20,7 +19,6 @@ export function provideHandleBlock_L1(
   optEscrowAddress: string,
   arbEscrowAddress: string,
   botId: string,
-  //fetch: any
   apiUrl: string,
   headers: {},
   fetcher: Fetcher
@@ -43,8 +41,8 @@ export function provideHandleBlock_L1(
     currentBlockTimeStamp += "000";
 
     let daiL1Contract = new ethers.Contract(daiL1Address, erc20Abi, provider);
-    for (let i = 0; i < chainData.length; i++) {
-      let currData: { l1EscrowAddress: string; chainId: string; chainName: string } = chainData[i];
+    for (let i = 0; i <= chainData.length - 1; i++) {
+      let currData: { l1EscrowAddress: string, chainId: string, chainName: string } = chainData[i];
       let balanceEscrow = parseFloat(
         await daiL1Contract.balanceOf(currData.l1EscrowAddress, { blockTag: blockEvent.blockNumber })
       );
@@ -52,7 +50,6 @@ export function provideHandleBlock_L1(
         await fetcher.getL2Alert(apiUrl, QUERY_API(botId, currData.chainId, currentBlockTimeStamp), headers)
       )["currentTotalSupply"];
       
-      //let l2TotalSupply = parseFloat(await callFortaAPI(fetch, botId, parseInt(currData.chainId)));
       if(l2TotalSupply != -1 && balanceEscrow < l2TotalSupply) {
         findings.push(
           getFindingL1(balanceEscrow.toString(), l2TotalSupply.toString(), currData.chainId, currData.chainName)

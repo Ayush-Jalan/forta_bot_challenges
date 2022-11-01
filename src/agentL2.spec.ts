@@ -34,14 +34,14 @@ describe("DAI bridge balance", () => {
     expect(await handleBlockL2(blockEvent)).toStrictEqual([]);
   });
 
-  it("returns a finding when total supply of L2 changes", async () => {
+  it.only("returns a finding when total supply of L2 changes", async () => {
     const TEST_BLOCK_NUMBER = 10;
     mockProviderL2
       .addCallTo(MOCK_DAI_L2_ADD, TEST_BLOCK_NUMBER, iface, "totalSupply", {
         inputs: [],
         outputs: [L2_SUPPLY_ARR[1]],
       })
-      .setLatestBlock(FIRST_TEST_BLOCK_NUMBER);
+      .setLatestBlock(TEST_BLOCK_NUMBER);
 
     const blockEvent: BlockEvent = new TestBlockEvent().setNumber(TEST_BLOCK_NUMBER);
     expect(await handleBlockL2(blockEvent)).toStrictEqual([

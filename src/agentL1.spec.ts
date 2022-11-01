@@ -9,12 +9,14 @@ import {
   iface,
   MOCK_DAI_L1_ADD,
   ETH_DAI_TOKEN,
-  MOCK_ESCROW_ADD,
+  MOCK_ARB_ESCROW_ADD,
+  MOCK_OPT_ESCROW_ADD,
   API_URL,
   BOT_ID,
   getFindingL1,
   MOCK_FETCHER_DATA,
-  HEADERS
+  HEADERS,
+  MOCK_DAI_L2_ADD
 } from "./utils";
 //import fetch from "node-fetch";
 
@@ -27,8 +29,8 @@ describe("DAI bridge balance", () => {
     DAI_TOKEN_ABI,
     ETH_DAI_TOKEN,
     mockProviderL1 as unknown as ethers.providers.JsonRpcProvider,
-    MOCK_ESCROW_ADD,
-    MOCK_ESCROW_ADD,
+    MOCK_OPT_ESCROW_ADD,
+    MOCK_ARB_ESCROW_ADD,
     BOT_ID,
     //fetch
     API_URL,
@@ -41,16 +43,16 @@ describe("DAI bridge balance", () => {
     const TEST_BLOCK_TIMESTAMP = 16523773880;
 
     mockProviderL1
-      .addCallTo(MOCK_DAI_L1_ADD, TEST_BLOCK_NUMBER, iface, "totalSupply", {
+      .addCallTo(MOCK_DAI_L2_ADD, TEST_BLOCK_NUMBER, iface, "totalSupply", {
         inputs: [],
         outputs: [L2_SUPPLY_ARR[0]],
       })
       .addCallTo(MOCK_DAI_L1_ADD, TEST_BLOCK_NUMBER, iface, "balanceOf", {
-        inputs: [MOCK_ESCROW_ADD],
+        inputs: [MOCK_OPT_ESCROW_ADD],
         outputs: [ESCROW_BALANCES_ARR[0]],
       })
       .addCallTo(MOCK_DAI_L1_ADD, TEST_BLOCK_NUMBER, iface, "balanceOf", {
-        inputs: [MOCK_ESCROW_ADD],
+        inputs: [MOCK_ARB_ESCROW_ADD],
         outputs: [ESCROW_BALANCES_ARR[0]],
       })
       .setLatestBlock(TEST_BLOCK_NUMBER);
@@ -58,6 +60,7 @@ describe("DAI bridge balance", () => {
     mockProviderL1.setNetwork(1001);
 
     const blockEvent: BlockEvent = new TestBlockEvent().setNumber(TEST_BLOCK_NUMBER).setTimestamp(TEST_BLOCK_TIMESTAMP);
+    console.log(await handleBlockL1(blockEvent));
     expect(await handleBlockL1(blockEvent)).toStrictEqual([]);
     expect(mockFetcher.getL2Alert).toHaveBeenCalled();
   });
@@ -72,11 +75,11 @@ describe("DAI bridge balance", () => {
         outputs: [L2_SUPPLY_ARR[1]],
       })
       .addCallTo(MOCK_DAI_L1_ADD, TEST_BLOCK_NUMBER, iface, "balanceOf", {
-        inputs: [MOCK_ESCROW_ADD],
+        inputs: [MOCK_OPT_ESCROW_ADD],
         outputs: [ESCROW_BALANCES_ARR[1]],
       })
       .addCallTo(MOCK_DAI_L1_ADD, TEST_BLOCK_NUMBER, iface, "balanceOf", {
-        inputs: [MOCK_ESCROW_ADD],
+        inputs: [MOCK_ARB_ESCROW_ADD],
         outputs: [ESCROW_BALANCES_ARR[0]],
       })
       .setLatestBlock(TEST_BLOCK_NUMBER);
