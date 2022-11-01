@@ -115,7 +115,7 @@ export const getFindingL2 = (prevSupply: string, totalSupply: string) => {
   return Finding.fromObject({
     name: "DAI supply update",
     description: "Returns total supply of DAI token",
-    alertId: "L2_DAI",
+    alertId: "L2_DAI_SUPPlY",
     severity: FindingSeverity.Low,
     type: FindingType.Info,
     protocol: "MakerDAO",
