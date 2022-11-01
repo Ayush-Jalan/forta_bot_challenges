@@ -27,7 +27,7 @@ describe("DAI bridge balance", () => {
   };
   let handleBlockL1: HandleBlock = provideHandleBlock_L1(
     DAI_TOKEN_ABI,
-    ETH_DAI_TOKEN,
+    MOCK_DAI_L1_ADD,
     mockProviderL1 as unknown as ethers.providers.JsonRpcProvider,
     MOCK_OPT_ESCROW_ADD,
     MOCK_ARB_ESCROW_ADD,
@@ -88,7 +88,7 @@ describe("DAI bridge balance", () => {
 
     const blockEvent: BlockEvent = new TestBlockEvent().setNumber(TEST_BLOCK_NUMBER).setTimestamp(TEST_BLOCK_TIMESTAMP);
     expect(await handleBlockL1(blockEvent)).toStrictEqual([
-      getFindingL1(ESCROW_BALANCES_ARR[1].toString(), L2_SUPPLY_ARR[1].toString(), "10", "Optimism"),
+      getFindingL1(ESCROW_BALANCES_ARR[1].toString(), MOCK_FETCHER_DATA, "10", "Optimism"),
     ]);
     expect(mockFetcher.getL2Alert).toHaveBeenCalled();
   });
