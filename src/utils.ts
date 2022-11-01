@@ -1,4 +1,6 @@
 import axios from "axios";
+//const {axios} = require('axios');
+jest.mock("axios");
 import { Finding, FindingSeverity, FindingType } from "forta-agent";
 import { createAddress } from "forta-agent-tools";
 import { utils } from "ethers";
@@ -108,7 +110,7 @@ export const HEADERS: {} = {
   "content-type": "application/json",
 };
 
-
+/*
 export const callFortaAPI = async (fetch: any, botId: string, chainId?: number) => {
   const headers = {
     "content-type": "application/json",
@@ -160,7 +162,7 @@ export const callFortaAPI = async (fetch: any, botId: string, chainId?: number) 
     throw new Error("Error During Calling External FORTA API");
   }
 };
-
+*/
 export const getFindingL2 = (prevSupply: string, totalSupply: string) => {
   return Finding.fromObject({
     name: "DAI supply update",
